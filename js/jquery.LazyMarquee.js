@@ -1,16 +1,11 @@
 /**
  * @Author:      ly
  * @Email:       lyhubei123@163.com
- * @DateTime:    2017-03-13 18:18:30
- * @Description: Description 
+ * @Description: 简易实现跑马灯效果，具有丰富的接口API可供调用
  */
-(function() {
-    if (!jQuery) {
-        console.error("缺少jquery的引用");
-        return;
-    }
+(function($) {
 
-    function LazyMarquee(opt) {
+    function LazyMarquee(opt, domObj) {
         var thisObj = this;
 
         //保存滚动浏览的数据
@@ -29,11 +24,10 @@
         var _inter;
 
         //默认配置
-        var _opt = {
+        var _config = {
             delay: 100,
             loop: true,
-            startup: true,
-            data: []
+            startup: true
         };
 
         var padding = 5;
@@ -47,8 +41,8 @@
             var outer = $('<div style="position:absolute;width:' + (width - padding * 2) + ';overflow:hidden;height:' + (height - padding * 2) + 'px;top:' + padding + 'px;left:' + padding + 'px;"></div>').appendTo(container);
             var inner = _innerDom = $('<div style="position:absolute;width:100%;top:0;"></div>').appendTo(outer);
             var ul = _ulDom = $('<ul style="width:100%;list-style-type: none;margin: 0;padding: 0;"></ul>').appendTo(inner);
-            for (var i = 0; i < _opt.data.length; i++) {
-                ul.append($('<li>' + _opt.data[i] + '</li>'));
+            for (var i = 0; i < _data.length; i++) {
+                ul.append($('<li>' + _data[i] + '</li>'));
             }
             return container;
         };
@@ -62,10 +56,10 @@
                 top = top - 1;
             } else {
                 //如果循环滚动，继续加入数据
-                if (_opt.loop) {
+                if (_config.loop) {
                     var newdom = '';
-                    for (var i = 0; i < _opt.data.length; i++) {
-                        newdom += ('<li>' + _opt.data[i] + '</li>');
+                    for (var i = 0; i < _data.length; i++) {
+                        newdom += ('<li>' + _data[i] + '</li>');
                     }
                     _ulDom.append(newdom);
                 } else
@@ -83,36 +77,34 @@
                 var newtop = _innerDom.css("top");
                 _innerDom.css({ "top": newtop, "bottom": "" });
             } else {
-            _innerDom.css("top", top + "px");
+                _innerDom.css("top", top + "px");
             }
         };
 
-
-        this.init = function() {
-            _opt = $.extend(_opt, opt);
-            _marqueeDom = this;
-            var dom = _createDom();
-            _marqueeDom.append(dom);
-            if (_opt.startup) {
+        //初始化操作
+        var _init = function(opt, dom) {
+            _config = $.extend(_config, opt);
+            _marqueeDom = dom;
+            _data = opt.data;
+            _marqueeDom.append(_createDom());
+            if (_config.startup) {
                 thisObj.startup();
             }
         };
+
+        _init(opt,domObj);
+
+        //启动
         this.startup = function() {
             if (_inter) {
                 clearInterval(_inter);
                 _inter = null;
             }
-            _inter = setInterval(_doScroll, _opt.delay);
+            _inter = setInterval(_doScroll, _config.delay);
         };
     }
 
     $.fn.lazymarquee = function(opt) {
-        var _marquee;
-        if (typeof(opt) == "string") {
-            _marquee[opt](arguments.shift());
-        } else if (!opt || typeof(opt) == "object") {
-            _marquee = new LazyMarquee(opt);
-            _marquee.init.call(this);
-        }
+        return new LazyMarquee(opt, this);
     };
-})();
+})(jQuery);
