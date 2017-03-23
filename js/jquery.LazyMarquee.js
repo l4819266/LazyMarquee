@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @Author:      ly
  * @Email:       lyhubei123@163.com
  * @Description: 简易实现跑马灯效果，具有丰富的接口API可供调用
@@ -17,6 +17,9 @@
         //滚动div
         var _innerDom;
 
+        //outer div
+        var _outerDom;
+
         //内容ul节点
         var _ulDom;
 
@@ -33,24 +36,26 @@
         var padding = 5;
 
 
+        var outerHeight;
         //创建子元素节点
         var _createDom = function() {
             var height = _marqueeDom.height();
             var width = _marqueeDom.width();
             var container = $('<div style="position:relative;width:' + width + 'px;height:' + height + 'px;"></div>');
-            var outer = $('<div style="position:absolute;width:' + (width - padding * 2) + ';overflow:hidden;height:' + (height - padding * 2) + 'px;top:' + padding + 'px;left:' + padding + 'px;"></div>').appendTo(container);
+            var outer = _outerDom = $('<div style="position:absolute;width:' + (width - padding * 2) + ';overflow:hidden;height:' + (height - padding * 2) + 'px;top:' + padding + 'px;left:' + padding + 'px;"></div>').appendTo(container);
             var inner = _innerDom = $('<div style="position:absolute;width:100%;top:0;"></div>').appendTo(outer);
             var ul = _ulDom = $('<ul style="width:100%;list-style-type: none;margin: 0;padding: 0;"></ul>').appendTo(inner);
             for (var i = 0; i < _data.length; i++) {
                 ul.append($('<li>' + _data[i] + '</li>'));
             }
+            outerHeight = _outerDom.height()
             return container;
         };
 
         //执行滚动
         var _doScroll = function() {
             var top = parseFloat(_innerDom.css("top").replace("px", ""));
-            var bottom = parseFloat(_innerDom.css("bottom").replace("px", ""));
+            var bottom = outerHeight - _innerDom.height() - top;
             var childrens = _innerDom.find("li");
             if (bottom < 0) {
                 top = top - 1;
@@ -62,9 +67,7 @@
                         newdom += ('<li>' + _data[i] + '</li>');
                     }
                     _ulDom.append(newdom);
-                } else
-
-                {
+                } else {
                     clearInterval(_inter);
                     _inter = null;
                 }
@@ -74,7 +77,7 @@
                 //保持当前位置
                 _innerDom.css({ "bottom": bottom + "px", "top": "" });
                 childrens.eq(0).remove();
-                var newtop = _innerDom.css("top");
+                var newtop = outerHeight - bottom - _innerDom.height();
                 _innerDom.css({ "top": newtop, "bottom": "" });
             } else {
                 _innerDom.css("top", top + "px");
@@ -92,7 +95,7 @@
             }
         };
 
-        _init(opt,domObj);
+        _init(opt, domObj);
 
         //启动
         this.startup = function() {
@@ -101,6 +104,11 @@
                 _inter = null;
             }
             _inter = setInterval(_doScroll, _config.delay);
+        };
+
+        //添加记录
+        this.addRecord = function() {
+
         };
     }
 

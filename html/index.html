@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 
 <head>
     <script src="../js/jquery.js"></script>
@@ -19,12 +19,15 @@
             loop:true,
             startup:false
         });
-        eee.startup();
+        $("#test").click(function(){
+        	eee.startup();
+        });
     });
     </script>
 </head>
 
 <body>
+	<button id="test">aaa</button>
     <div id="div1" style="width:400px;height:400px;"></div>
 </body>
 
