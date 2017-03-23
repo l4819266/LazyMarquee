@@ -28,7 +28,7 @@
 
         //默认配置
         var _config = {
-            delay: 100,
+            delay: 10,
             loop: true,
             startup: true
         };
