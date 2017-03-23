@@ -15,7 +15,7 @@ var marquee = $(mydom).lazymarquee(option);
 ```
 #### startup
 ```javascript
-marquee.startip();
+marquee.startup();
 ```
 立即启动<br/>
 #### stop
