@@ -9,12 +9,12 @@
         var thisObj = this;
 
         //保存滚动浏览的数据
-        var _data = new Array();
+        var _data = [];
 
         //容器dom
         var _marqueeDom;
 
-        //滚动div
+        //滚动div 
         var _innerDom;
 
         //outer div
@@ -42,13 +42,16 @@
             var height = _marqueeDom.height();
             var width = _marqueeDom.width();
             var container = $('<div style="position:relative;width:' + width + 'px;height:' + height + 'px;"></div>');
-            var outer = _outerDom = $('<div style="position:absolute;width:' + (width - padding * 2) + ';overflow:hidden;height:' + (height - padding * 2) + 'px;top:' + padding + 'px;left:' + padding + 'px;"></div>').appendTo(container);
-            var inner = _innerDom = $('<div style="position:absolute;width:100%;top:0;"></div>').appendTo(outer);
-            var ul = _ulDom = $('<ul style="width:100%;list-style-type: none;margin: 0;padding: 0;"></ul>').appendTo(inner);
+            var outer = $('<div style="position:absolute;width:' + (width - padding * 2) + ';overflow:hidden;height:' + (height - padding * 2) + 'px;top:' + padding + 'px;left:' + padding + 'px;"></div>').appendTo(container);
+            var inner = $('<div style="position:absolute;width:100%;top:0;"></div>').appendTo(outer);
+            var ul = $('<ul style="width:100%;list-style-type: none;margin: 0;padding: 0;"></ul>').appendTo(inner);
             for (var i = 0; i < _data.length; i++) {
                 ul.append($('<li>' + _data[i] + '</li>'));
             }
-            outerHeight = _outerDom.height()
+            _outerDom = outer;
+            _innerDom = inner;
+            _ulDom = ul;
+            outerHeight = _outerDom.height();
             return container;
         };
 
@@ -137,7 +140,7 @@
             if (!_config.loop && !_inter) {
                 thisObj.startup();
             }
-        }
+        };
 
         //移除记录
         this.removeAt = function(index, num) {
