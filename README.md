@@ -42,6 +42,6 @@ index:指定的索引位置
 ```javascript
 marquee.removeAt(0,4);
 ```
-删除指定顺序的数据
+删除指定顺序的数据<br/>
 index:指定的索引位置<br/>
 num:设置需要删除的数量
