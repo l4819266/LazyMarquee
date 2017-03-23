@@ -6,28 +6,38 @@
     <script type="text/javascript">
     $(document).ready(function() {
         var eee = $("#div1").lazymarquee({
-            data: [11, 12, 1345, "fdsa","fdsgsdfhgfd","wfdergerfb","gfhewfweferger","gfsdhgfdhtrdghtr",
-            11, 12, 1345, "fdsa","fdsgsdfhgfd","wfdergerfb","gfhewfweferger","gfsdhgfdhtrdghtr",
-            11, 12, 1345, "fdsa","fdsgsdfhgfd","wfdergerfb","gfhewfweferger","gfsdhgfdhtrdghtr",
-            11, 12, 1345, "fdsa","fdsgsdfhgfd","wfdergerfb","gfhewfweferger","gfsdhgfdhtrdghtr",
-            11, 12, 1345, "fdsa","fdsgsdfhgfd","wfdergerfb","gfhewfweferger","gfsdhgfdhtrdghtr",
-            11, 12, 1345, "fdsa","fdsgsdfhgfd","wfdergerfb","gfhewfweferger","gfsdhgfdhtrdghtr",
-            11, 12, 1345, "fdsa","fdsgsdfhgfd","wfdergerfb","gfhewfweferger","gfsdhgfdhtrdghtr",
-            11, 12, 1345, "fdsa","fdsgsdfhgfd","wfdergerfb","gfhewfweferger","gfsdhgfdhtrdghtr",
-            11, 12, 1345, "fdsa","fdsgsdfhgfd","wfdergerfb","gfhewfweferger","gfsdhgfdhtrdghtr","end"],
+            data: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,"end"],
             delay: 10,
             loop:true,
             startup:false
         });
-        $("#test").click(function(){
+        $("#start").click(function(){
         	eee.startup();
+        });
+        $("#append").click(function(){
+        	var datas = ["append1",1,"append2",2,"appendend"];
+        	eee.append(datas);
+        });
+        $("#insert").click(function(){
+        	var datas = ["add1",1,"add2",2,"addend"];
+        	eee.insertAt(datas,10);
+        });
+        $("#remove").click(function(){
+        	eee.removeAt(10,4);
+        });
+        $("#stop").click(function(){
+        	eee.stop();
         });
     });
     </script>
 </head>
 
 <body>
-	<button id="test">aaa</button>
+	<button id="start">start</button>
+	<button id="stop">stop</button>
+	<button id="insert">insert</button>
+	<button id="append">append</button>
+	<button id="remove">remove</button>
     <div id="div1" style="width:400px;height:400px;"></div>
 </body>
 

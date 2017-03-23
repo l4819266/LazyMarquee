@@ -9,7 +9,7 @@
         var thisObj = this;
 
         //保存滚动浏览的数据
-        var _data = [];
+        var _data = new Array();
 
         //容器dom
         var _marqueeDom;
@@ -107,8 +107,66 @@
         };
 
         //添加记录
-        this.addRecord = function() {
+        this.insertAt = function(datas, index) {
+            if (!_config.loop) {
+                alert("设置为循环滚动才能使用");
+            }
+            for (var i = 0; i < datas.length; i++) {
+                //     if (!_config.loop && !_inter) {
+                //         debugger;
+                //         //倒数第几个
+                //         var dataIndex = index - _data.length;
 
+                //         //dom的索引
+                //         var liIndex = _ulDom.children().length + dataIndex;
+                //         if (liIndex >= 0) {
+                //             $("<li>" + datas[i] + "</li>").insertBefore(_ulDom.children().eq(liIndex));
+                //         }
+                //     }
+                _data.splice(index + i, 0, datas[i]);
+            }
+        };
+
+        //添加记录到最后
+        this.append = function(datas) {
+            for (var i = 0; i < datas.length; i++) {
+                _ulDom.append($("<li>" + datas[i] + "</li>"));
+                _data.push(datas[i]);
+            }
+            //如果不是循环滚动，并且已经滚动完成则重新启动
+            if (!_config.loop && !_inter) {
+                thisObj.startup();
+            }
+        }
+
+        //移除记录
+        this.removeAt = function(index, num) {
+            num = num || 1;
+            if (!_inter) {
+                for (var i = num - 1; i >= 0; i--) {
+                    //_data倒数的索引
+                    var dataIndex = index - _data.length;
+
+                    //dom的索引
+                    var liIndex = _ulDom.children().length + dataIndex;
+
+                    //移除dom
+                    if (liIndex >= 0) {
+                        _ulDom.children().eq(liIndex).remove();
+                    }
+
+                    //移除数据
+                    _data.splice(index, 1);
+                }
+            } else {
+                _data.splice(index, num);
+            }
+        };
+
+        //停止
+        this.stop = function() {
+            clearInterval(_inter);
+            _inter = null;
         };
     }
 
